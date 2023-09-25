@@ -245,6 +245,7 @@ class Cpu {
         }
 
         void CMP_imm(int value) {
+            //Compare Memory with Accumulator
             int result = this->A - value;
             if(result>0){
                 this->C = true;
@@ -267,6 +268,7 @@ class Cpu {
         }
 
         void CPX_imm(int value) {
+            //Compare Memory and Index X
             int result = this->X - value;
             if(result>0){
                 this->C = true;
@@ -289,6 +291,7 @@ class Cpu {
         }
 
         void CPY_imm(int value) {
+            //Compare Memory and Index Y
             int result = this->Y - value;
             if(result>0){
                 this->C = true;
@@ -311,6 +314,7 @@ class Cpu {
         }
 
         void EOR_imm(int value) {
+            //Exclusive-OR Memory with Accumulator
             this->A = this->A ^ value;
             if(this->A < 0){
                 this->N = true;
@@ -326,6 +330,7 @@ class Cpu {
         }
 
         void LDA_imm(int value) {
+            //Load Accumulator with Memory
             this->A = value;
             if(value > 0){
                 this->Z = 0;
@@ -346,10 +351,66 @@ class Cpu {
         }
 
         void LDX_imm(int value) {
+            //Load Index X with Memory
+            this->X = value;
+            if(value > 0){
+                this->Z = 0;
+                this->N = 0;
+                return;
+            }
+            if(value<0){
+                this->Z = 0;
+                this->N = 1;
+                return;
+            }
 
+            if(value == 0){
+                this->Z = 1;
+                this->N = 0;
+                return;
+            }
         }
-        void LDY_imm(int value) {}
-        void ORA_imm(int value) {}
+        void LDY_imm(int value) {
+            //Load Index Y with Memory
+            this->Y = value;
+            if(value > 0){
+                this->Z = 0;
+                this->N = 0;
+                return;
+            }
+            if(value<0){
+                this->Z = 0;
+                this->N = 1;
+                return;
+            }
+
+            if(value == 0){
+                this->Z = 1;
+                this->N = 0;
+                return;
+            }
+        }
+        void ORA_imm(int value) {
+            //OR Memory with Accumulator
+            this->A = this->A | value;
+            if(this->A > 0){
+                this->Z = 0;
+                this->N = 0;
+                return;
+            }
+            if(this->A<0){
+                this->Z = 0;
+                this->N = 1;
+                return;
+            }
+
+            if(this->A == 0){
+                this->Z = 1;
+                this->N = 0;
+                return;
+            }
+        }
+        
         void SBC_imm(int value) {}
 
         //zero page
